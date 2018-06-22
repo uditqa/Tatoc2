@@ -1,0 +1,15 @@
+
+public class Implementation {
+	
+	public static void main(String args[]) {
+		Tatoc obj = new Tatoc();
+		obj.Implementation();
+		obj.grid_Gate();
+		obj.dungeon();
+		obj.action();
+		obj.popup();
+		obj.cookie();
+		obj.closeBrowser();
+	}
+
+}
