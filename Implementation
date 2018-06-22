@@ -1,0 +1,91 @@
+package Testngfirst;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Cookie;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
+import com.gargoylesoftware.htmlunit.javascript.SimpleScriptable;
+public class Tatoc {
+	WebDriver driver = new ChromeDriver();
+	
+	
+	 public void Implementation(){
+			
+			driver.get("http://10.0.1.86/tatoc");
+			
+			}
+		
+		public void grid_Gate() { //Function to click on the green box in the grid
+			driver.findElement(By.partialLinkText("Basic Course")).click(); //This method clicks on Basic Course
+			driver.findElement(By.className("greenbox")).click(); // This method clicks on the green box in the grid
+		}
+				
+		public void dungeon() { //This function is used to repaint the box until the boxes have same color
+			driver.switchTo().frame(0);
+			WebElement box1 = driver.findElement(By.id("answer"));
+			String Box1 = box1.getAttribute("class");
+			String Box2 = "";
+			while(!Box1.equals(Box2)){
+			  
+			   driver.switchTo().defaultContent();
+			    driver.switchTo().frame(0);
+			    driver.findElement(By.cssSelector("a")).click();
+			    driver.switchTo().frame(0);
+			    Box2=driver.findElement(By.id("answer")).getAttribute("class");
+			     }
+			driver.switchTo().defaultContent();
+			driver.switchTo().frame(0).findElement(By.linkText("Proceed")).click();
+
+			}
+				public void action() { // This function is used to drag the content and drop it in dropbox
+					Actions act=new Actions(driver);
+					WebElement drop = driver.findElement(By.cssSelector("#dropbox"));
+					WebElement drag = driver.findElement(By.cssSelector("#dragbox"));
+					act.dragAndDrop(drag, drop).build().perform();
+					driver.findElement(By.linkText("Proceed")).click();
+
+					}
+				
+				public void popup() { // This function is used to handle the popup window
+					driver.findElement(By.cssSelector("a")).click();
+				     String parentWindowHandler = driver.getWindowHandle(); 
+	                 driver.findElement(By.cssSelector("a")).click(); 
+				     String subWindowHandler = null;
+	                 Set <String> handles = driver.getWindowHandles();
+				    		    
+				     Iterator<String> iterator = handles.iterator(); 
+				     while (iterator.hasNext()){
+				    	 subWindowHandler = iterator.next();
+				    	  }
+				     driver.switchTo().window(subWindowHandler); 
+				     driver.findElement(By.id("name")).sendKeys("TATOC");
+				     driver.findElement(By.id("submit")).click();
+
+				     driver.switchTo().window(parentWindowHandler); 
+				     driver.findElements(By.cssSelector("a")).get(1).click(); 
+					
+					}
+				public void cookie() { //This function is used to handle the cookie
+					driver.findElement(By.partialLinkText("Generate")).click();// This method is used to click on generate
+
+					String token_value=driver.findElement(By.id("token")).getText(); //This method is storing the value of the cookie in str
+					
+				String str=token_value.substring(token_value.indexOf(":")+2); //Fetching the method of generated token
+					Cookie cookie = new Cookie("Token",str);
+					driver.manage().addCookie(cookie);//Adding the cookie in the session
+					driver.findElement(By.linkText("Proceed")).click();
+					
+					}
+				
+				public void closeBrowser() {
+					driver.close();// Closing the window
+				}
+				
+				
+			}
